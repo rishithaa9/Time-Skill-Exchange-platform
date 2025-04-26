@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - Time Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Base styles */
+        body {
+            transition: background 0.3s ease, color 0.3s ease;
+            margin: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            transition: background 0.3s ease;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 8px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        nav a i {
+            margin-right: 5px;
+        }
+
+        nav a:hover {
+            color: #f1c40f;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        /* Community Section Styling */
+        .dashboard {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            transition: background 0.3s ease;
+            padding: 20px;
+        }
+
+        .dashboard::before, .dashboard::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            transition: background 0.3s ease, opacity 0.3s ease;
+        }
+
+        .dashboard > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .dashboard h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .dashboard h2 i {
+            margin-right: 8px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 200px;
+            transition: background 0.3s ease;
+        }
+
+        .stat-card i {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            margin: 10px 0;
+        }
+
+        .stat-card p {
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        .my-skills, .transactions, .skills-available {
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 30px;
+        }
+
+        .my-skills h3, .transactions h3, .skills-available h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .my-skills h3 i, .transactions h3 i, .skills-available h3 i {
+            margin-right: 8px;
+        }
+
+        #top-contributors, #recent-transactions, #skills-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #top-contributors li, #recent-transactions li, #skills-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        footer {
+            padding: 15px;
+            margin-top: 30px;
+            text-align: center;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Light Mode (default) */
+        body.light-mode {
+            background: #f0f4f8;
+            color: #2c3e50;
+        }
+
+        .light-mode header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .light-mode .logo h1 {
+            color: #ffffff;
+        }
+
+        .light-mode .theme-toggle {
+            color: #ffffff;
+        }
+
+        .light-mode .dashboard {
+            background: #ffffff;
+            background: 
+                linear-gradient(0deg, rgba(52, 152, 219, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(52, 152, 219, 0.03) 1px, transparent 1px),
+                linear-gradient(135deg, #f7f9fc 0%, #e0e6ed 100%);
+            background-size: 40px 40px, 40px 40px, 100% 100%;
+        }
+
+        .light-mode .dashboard::before {
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.12) 0%, rgba(46, 204, 113, 0.12) 100%);
+            opacity: 1.0;
+        }
+
+        .light-mode .dashboard::after {
+            background: radial-gradient(circle at 50% 20%, rgba(241, 196, 15, 0.15) 0%, transparent 80%);
+            opacity: 0.8;
+        }
+
+        .light-mode .dashboard h2 {
+            color: #2980b9;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .light-mode .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .light-mode .my-skills h3, .light-mode .transactions h3, .light-mode .skills-available h3 {
+            color: #2980b9;
+        }
+
+        .light-mode #top-contributors li, .light-mode #recent-transactions li, .light-mode #skills-list li {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .light-mode footer {
+            background: linear-gradient(135deg, #e0e6ed, #d5dce4);
+            color: #2c3e50;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background: #1a252f;
+            color: #e0e6ed;
+        }
+
+        .dark-mode header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+        }
+
+        .dark-mode .logo h1 {
+            color: #e0e6ed;
+        }
+
+        .dark-mode .theme-toggle {
+            color: #e0e6ed;
+        }
+
+        .dark-mode .dashboard {
+            background: #1a2a6c;
+            background: radial-gradient(circle at center, #2c3e50 0%, #1a2a6c 120%);
+        }
+
+        .dark-mode .dashboard::before {
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.25) 0%, rgba(46, 204, 113, 0.25) 100%);
+            opacity: 1.0;
+        }
+
+        .dark-mode .dashboard::after {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.15) 0%, transparent 100%);
+            opacity: 1.0;
+        }
+
+        .dark-mode .dashboard h2 {
+            color: #3498db;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .dark-mode .stat-card {
+            background: rgba(44, 62, 80, 0.9);
+        }
+
+        .dark-mode .my-skills h3, .dark-mode .transactions h3, .dark-mode .skills-available h3 {
+            color: #3498db;
+        }
+
+        .dark-mode #top-contributors li, .dark-mode #recent-transactions li, .dark-mode #skills-list li {
+            background: rgba(44, 62, 80, 0.9);
+        }
+
+        .dark-mode footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #e0e6ed;
+        }
+
+        .dark-mode nav a {
+            color: #e0e6ed;
+        }
+
+        .dark-mode nav a:hover {
+            color: #f1c40f;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <header>
+        <div class="logo"><h1><i class="fas fa-clock"></i> Time Skill Exchange Platform</h1></div>
+        <div class="header-content">
+            <nav>
+                <a href="index.html"><i class="fas fa-home"></i> Intro</a>
+                <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="community.html"><i class="fas fa-users"></i> Community</a>
+                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+    <main>
+        <section class="dashboard">
+            <h2><i class="fas fa-users"></i> Community Hub</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Total Members</h3>
+                    <p id="total-users">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>Total Transactions</h3>
+                    <p id="total-transactions">0</p>
+                </div>
+            </div>
+            <div class="my-skills">
+                <h3><i class="fas fa-trophy"></i> Top Contributors</h3>
+                <ul id="top-contributors"></ul>
+            </div>
+            <div class="transactions">
+                <h3><i class="fas fa-history"></i> Recent Transactions</h3>
+                <ul id="recent-transactions"></ul>
+            </div>
+            <div class="skills-available">
+                <h3><i class="fas fa-tools"></i> Skills Available</h3>
+                <ul id="skills-list"></ul>
+            </div>
+        </section>
+    </main>
+    <footer><p>© 2025 Time Bank - Built with <i class="fas fa-heart"></i> for communities</p></footer>
+    <script>
+        // Theme Switcher
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        const savedTheme = localStorage.getItem('theme') || 'light-mode';
+        body.classList.add(savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark-mode');
+                updateThemeIcon('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light-mode');
+                updateThemeIcon('light-mode');
+            }
+        });
+
+        function updateThemeIcon(theme) {
+            themeToggle.innerHTML = theme === 'light-mode' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        }
+
+        const userId = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
+        if (!userId || !token) window.location.href = 'login.html';
+
+        function fetchWithAuth(url, options = {}) {
+            options.headers = {
+                ...options.headers,
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+            return fetch(url, options);
+        }
+
+        // Fetch community stats
+        fetchWithAuth('/community/stats')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('total-users').textContent = data.totalUsers;
+                document.getElementById('total-transactions').textContent = data.totalTransactions;
+
+                const contributorsList = document.getElementById('top-contributors');
+                data.topContributors.forEach(contributor => {
+                    const li = document.createElement('li');
+                    li.textContent = `${contributor.name} - ${contributor.transactions} transactions`;
+                    contributorsList.appendChild(li);
+                });
+
+                const transactionsList = document.getElementById('recent-transactions');
+                data.recentTransactions.forEach(t => {
+                    const li = document.createElement('li');
+                    li.textContent = `${t.provider_name} provided ${t.skill_name} to ${t.receiver_name} for ${t.hours_transferred} hour(s) - ${t.status}`;
+                    transactionsList.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error fetching stats:', error));
+
+        // Function to fetch and update skills list
+        function updateSkillsList() {
+            fetchWithAuth('/community/skills')
+                .then(response => response.json())
+                .then(data => {
+                    const skillsList = document.getElementById('skills-list');
+                    skillsList.innerHTML = ''; // Clear existing list
+                    data.skills.forEach(skill => {
+                        const li = document.createElement('li');
+                        li.textContent = `${skill.name} - Offered by ${skill.provider_name} (${skill.hours_available} hours)`;
+                        skillsList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error fetching skills:', error));
+        }
+
+        // Initial fetch for skills
+        updateSkillsList();
+
+        // Poll for skills updates every 30 seconds
+        setInterval(updateSkillsList, 30000);
+
+        // Logout functionality
+        document.getElementById('logout').addEventListener('click', () => {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Time Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            transition: background 0.3s ease, color 0.3s ease;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            transition: background 0.3s ease;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 8px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        nav a i {
+            margin-right: 5px;
+        }
+
+        nav a:hover {
+            color: #f1c40f;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dashboard {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+
+        .dashboard::before, .dashboard::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            transition: background 0.3s ease, opacity 0.3s ease;
+        }
+
+        #welcome-msg {
+            position: relative;
+            z-index: 2;
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .user-photo {
+            margin-right: 10px;
+            font-size: 2em;
+            width: auto;
+            height: auto;
+        }
+
+        .stats {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+            transition: background 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+        }
+
+        .stat-card i {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+
+        .stat-card p {
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .my-skills, .add-skill, .request-skill, .transactions, .notifications {
+            position: relative;
+            z-index: 2;
+            max-width: 500px;
+            width: 100%;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            transition: background 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+        }
+
+        .my-skills h3, .add-skill h3, .request-skill h3, .transactions h3, .notifications h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .my-skills h3 i, .add-skill h3 i, .request-skill h3 i, .transactions h3 i, .notifications h3 i {
+            font-size: 1em;
+        }
+
+        .my-skills ul, .notifications ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .my-skills li, .notifications li {
+            position: relative;
+            padding: 15px;
+            background: #2c3e50;
+            color: #e0e6ed;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .skill-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .skill-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .skill-availability {
+            font-size: 0.9em;
+            color: #bdc3c7;
+        }
+
+        .skill-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .skill-actions button {
+            padding: 5px 10px;
+            font-size: 0.9em;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .dark-mode .skill-actions .edit-btn {
+            background: #f39c12;
+            color: #fff;
+        }
+
+        .dark-mode .skill-actions .delete-btn {
+            background: #c0392b;
+            color: #fff;
+        }
+
+        .skill-actions button:hover {
+            transform: scale(1.05);
+        }
+
+        .edit-form {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 15px;
+            background: #34495e;
+            border-radius: 10px;
+        }
+
+        .edit-form input,
+        .edit-form textarea {
+            padding: 8px;
+            border: 1px solid #7f8c8d;
+            border-radius: 5px;
+            background: #2c3e50;
+            color: #e0e6ed;
+        }
+
+        .edit-form button {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            background: #3498db;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .edit-form button:hover {
+            background: #2980b9;
+        }
+
+        .notifications li {
+            background: #34495e;
+            color: #e0e6ed;
+        }
+
+        .notifications li.unread {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        /* Light Mode (default) */
+        body.light-mode {
+            background: #f0f4f8;
+            color: #2c3e50;
+        }
+
+        .light-mode header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .light-mode .logo h1 {
+            color: #ffffff;
+        }
+
+        .light-mode .dashboard {
+            background: #f0f4f8;
+            background: 
+                linear-gradient(0deg, rgba(52, 152, 219, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(52, 152, 219, 0.02) 1px, transparent 1px),
+                #f0f4f8;
+            background-size: 20px 20px, 20px 20px, 100% 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .light-mode .dashboard::before {
+            background: none;
+            opacity: 0;
+        }
+
+        .light-mode .dashboard::after {
+            background: none;
+            opacity: 0;
+        }
+
+        .light-mode #welcome-msg {
+            color: #2980b9;
+            text-shadow: none;
+        }
+
+        .light-mode .stat-card {
+            background: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: none;
+        }
+
+        .light-mode .stat-card i {
+            color: #3498db;
+        }
+
+        .light-mode .stat-card h3 {
+            color: #2c3e50;
+        }
+
+        .light-mode .stat-card p {
+            color: #2c3e50;
+        }
+
+        .light-mode .my-skills, .light-mode .add-skill, .light-mode .request-skill, .light-mode .transactions, .light-mode .notifications {
+            background: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: none;
+        }
+
+        .light-mode .my-skills h3, .light-mode .add-skill h3, .light-mode .request-skill h3, .light-mode .transactions h3, .light-mode .notifications h3 {
+            color: #2980b9;
+            text-shadow: none;
+        }
+
+        .light-mode .my-skills li, .light-mode .notifications li {
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .light-mode .skill-availability {
+            color: #7f8c8d;
+        }
+
+        .light-mode .skill-actions .edit-btn {
+            background: #f1c40f;
+            color: #fff;
+        }
+
+        .light-mode .skill-actions .delete-btn {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .light-mode .edit-form {
+            background: #f7f9fc;
+        }
+
+        .light-mode .edit-form input,
+        .light-mode .edit-form textarea {
+            background: #f7f9fc;
+            color: #2c3e50;
+            border-color: #d5dce4;
+        }
+
+        .light-mode .edit-form button {
+            background: #3498db;
+            color: #fff;
+        }
+
+        .light-mode .edit-form button:hover {
+            background: #2980b9;
+        }
+
+        .light-mode .notifications li.unread {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background: #1a252f;
+            color: #e0e6ed;
+        }
+
+        .dark-mode header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+        }
+
+        .dark-mode .logo h1 {
+            color: #e0e6ed;
+        }
+
+        .dark-mode .dashboard {
+            background: #1a2a6c;
+            background: radial-gradient(circle at center, #2c3e50 0%, #1a2a6c 100%);
+        }
+
+        .dark-mode .dashboard::before {
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.2) 0%, rgba(46, 204, 113, 0.2) 100%);
+            opacity: 0.8;
+        }
+
+        .dark-mode .dashboard::after {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.1) 0%, transparent 100%);
+            opacity: 0.6;
+        }
+
+        .dark-mode #welcome-msg {
+            color: #3498db;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .dark-mode .stat-card {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .stat-card i {
+            color: #3498db;
+        }
+
+        .dark-mode .stat-card h3 {
+            color: #e0e6ed;
+        }
+
+        .dark-mode .stat-card p {
+            color: #e0e6ed;
+        }
+
+        .dark-mode .my-skills, .dark-mode .add-skill, .dark-mode .request-skill, .dark-mode .transactions, .dark-mode .notifications {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .my-skills h3, .dark-mode .add-skill h3, .dark-mode .request-skill h3, .dark-mode .transactions h3, .dark-mode .notifications h3 {
+            color: #3498db;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .dark-mode .request-skill li, .dark-mode .transactions li {
+            color: #e0e6ed;
+        }
+
+        .dark-mode .request-skill li button {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: #fff;
+        }
+
+        .dark-mode .request-skill li button:hover {
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.5);
+        }
+
+        .dark-mode .add-skill input, .dark-mode .add-skill textarea, .dark-mode .request-skill input {
+            background-color: #233544;
+            color: #e0e6ed;
+            border: 1px solid #34495e;
+        }
+
+        .dark-mode .add-skill input:focus, .dark-mode .add-skill textarea:focus, .dark-mode .request-skill input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+
+        .dark-mode .add-skill input::placeholder, .dark-mode .add-skill textarea::placeholder, .dark-mode .request-skill input::placeholder {
+            color: #7f8c8d;
+        }
+
+        .dark-mode .add-skill button, .dark-mode .request-skill button {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: #fff;
+        }
+
+        .dark-mode .add-skill button:hover, .dark-mode .request-skill button:hover {
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.5);
+        }
+
+        .dark-mode footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #e0e6ed;
+        }
+
+        .dark-mode .theme-toggle {
+            color: #e0e6ed;
+        }
+
+        .dark-mode nav a {
+            color: #e0e6ed;
+        }
+
+        .dark-mode nav a:hover {
+            color: #f1c40f;
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <header>
+        <div class="logo"><h1><i class="fas fa-clock"></i> Time Skill Exchange Platform</h1></div>
+        <div class="header-content">
+            <nav>
+                <a href="index.html"><i class="fas fa-home"></i> Intro</a>
+                <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="community.html"><i class="fas fa-users"></i> Community</a>
+                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+    </header>
+    <main>
+        <section class="dashboard">
+            <h2 id="welcome-msg">
+                <i class="ri-user-3-fill user-photo"></i> Welcome!
+            </h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <i class="fas fa-coins"></i>
+                    <h3>Time Credits</h3>
+                    <p id="credits">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-tools"></i>
+                    <h3>Services Offered</h3>
+                    <p id="services">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>Transactions</h3>
+                    <p id="transactions-count">0</p>
+                </div>
+            </div>
+            <div class="notifications">
+                <h3><i class="fas fa-bell"></i> Notifications</h3>
+                <ul id="notifications-list"></ul>
+            </div>
+            <div class="my-skills">
+                <h3><i class="fas fa-tools"></i> Your Skills</h3>
+                <ul id="user-skills"></ul>
+            </div>
+            <div class="add-skill">
+                <h3><i class="fas fa-plus-circle"></i> Add a New Skill</h3>
+                <form id="skill-form">
+                    <input type="text" id="skill-name" placeholder="Skill Name" required>
+                    <input type="number" id="hourly-rate" placeholder="Hourly Rate" min="1" required>
+                    <textarea id="skill-desc" placeholder="Description" required></textarea>
+                    <input type="text" id="skill-avail" placeholder="Availability" required>
+                    <button type="submit"><i class="fas fa-plus"></i> Add Skill</button>
+                </form>
+            </div>
+            <div class="request-skill">
+                <h3><i class="fas fa-search"></i> Request a Skill</h3>
+                <form id="request-form">
+                    <input type="text" id="skill-needed" placeholder="Skill Needed" required>
+                    <input type="text" id="preferred-location" placeholder="Preferred Location" required>
+                    <button type="submit"><i class="fas fa-search"></i> Find Matches</button>
+                </form>
+                <ul id="matches-list"></ul>
+            </div>
+            <div class="transactions">
+                <h3><i class="fas fa-history"></i> Transaction History</h3>
+                <ul id="transactions-list"></ul>
+            </div>
+        </section>
+    </main>
+    <footer><p>© 2025 Time Bank - Built with <i class="fas fa-heart"></i> for communities</p></footer>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        const savedTheme = localStorage.getItem('theme') || 'dark-mode';
+        body.classList.add(savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark-mode');
+                updateThemeIcon('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light-mode');
+                updateThemeIcon('light-mode');
+            }
+        });
+
+        function updateThemeIcon(theme) {
+            themeToggle.innerHTML = theme === 'light-mode' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        }
+
+        const animatedTitle = document.querySelectorAll('h2, h3');
+        animatedTitle.forEach(title => (title.style.opacity = 0));
+
+        setTimeout(() => {
+            animatedTitle.forEach(title => {
+                title.style.transition = "opacity 1s ease-in-out";
+                title.style.opacity = 1;
+            });
+        }, 500);
+
+        const formButtons = document.querySelectorAll('button');
+        formButtons.forEach(btn => {
+            btn.addEventListener("mouseover", () => btn.style.transform = "scale(1.05)");
+            btn.addEventListener("mouseout", () => btn.style.transform = "scale(1)");
+        });
+
+        const userId = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
+        if (!userId || !token) window.location.href = 'login.html';
+
+        function fetchWithAuth(url, options = {}) {
+            options.headers = {
+                ...options.headers,
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+            return fetch(url, options);
+        }
+
+        function renderSkills(skills) {
+            console.log('Rendering skills:', skills);
+            const skillsList = document.getElementById('user-skills');
+            skillsList.innerHTML = '';
+            if (skills.length === 0) {
+                skillsList.innerHTML = '<li>No skills added yet</li>';
+                return;
+            }
+
+            skills.forEach(skill => {
+                const li = document.createElement('li');
+
+                const skillInfo = document.createElement('div');
+                skillInfo.className = 'skill-info';
+                skillInfo.innerHTML = `
+                    <div class="skill-name">${skill.skill_name}</div>
+                    <div class="skill-availability">${skill.availability}</div>
+                `;
+                li.appendChild(skillInfo);
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'skill-actions';
+
+                const editBtn = document.createElement('button');
+                editBtn.className = 'edit-btn';
+                editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit';
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Delete';
+
+                actionsDiv.appendChild(editBtn);
+                actionsDiv.appendChild(deleteBtn);
+                li.appendChild(actionsDiv);
+
+                const editForm = document.createElement('form');
+                editForm.className = 'edit-form';
+                editForm.innerHTML = `
+                    <input type="text" value="${skill.skill_name}" class="edit-name" placeholder="Skill Name" required>
+                    <input type="number" value="${skill.hourly_rate || 0}" class="edit-rate" placeholder="Hourly Rate" min="1" required>
+                    <textarea class="edit-desc" placeholder="Description" required>${skill.description || ''}</textarea>
+                    <input type="text" value="${skill.availability}" class="edit-avail" placeholder="Availability" required>
+                    <button type="submit"><i class="fas fa-save"></i> Save</button>
+                `;
+
+                li.appendChild(editForm);
+
+                editBtn.onclick = (e) => {
+                    e.preventDefault();
+                    editForm.style.display = editForm.style.display === 'flex' ? 'none' : 'flex';
+                };
+
+                editForm.onsubmit = async (e) => {
+                    e.preventDefault();
+                    const updatedSkill = {
+                        skill_name: editForm.querySelector('.edit-name').value,
+                        hourly_rate: Number(editForm.querySelector('.edit-rate').value),
+                        description: editForm.querySelector('.edit-desc').value,
+                        availability: editForm.querySelector('.edit-avail').value
+                    };
+                    console.log('Updating skill:', updatedSkill);
+                    try {
+                        const response = await fetchWithAuth(`/skills/${skill.skill_id}`, {
+                            method: 'PUT',
+                            body: JSON.stringify(updatedSkill)
+                        });
+                        if (response.ok) {
+                            alert('Skill updated!');
+                            location.reload();
+                        } else {
+                            const errorData = await response.json();
+                            alert('Failed to update skill: ' + errorData.error);
+                        }
+                    } catch (err) {
+                        alert('Failed to update skill due to network error');
+                    }
+                };
+
+                deleteBtn.onclick = async () => {
+                    if (confirm('Are you sure you want to delete this skill?')) {
+                        console.log('Deleting skill ID:', skill.skill_id);
+                        try {
+                            const response = await fetchWithAuth(`/skills/${skill.skill_id}`, {
+                                method: 'DELETE'
+                            });
+                            if (response.ok) {
+                                alert('Skill deleted!');
+                                location.reload();
+                            } else {
+                                const errorData = await response.json();
+                                alert('Failed to delete skill: ' + errorData.error);
+                            }
+                        } catch (err) {
+                            alert('Failed to delete skill due to network error');
+                        }
+                    }
+                };
+
+                skillsList.appendChild(li);
+            });
+        }
+
+        function renderNotifications(notifications) {
+            const notificationsList = document.getElementById('notifications-list');
+            notificationsList.innerHTML = '';
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = '<li>No new notifications</li>';
+                return;
+            }
+
+            notifications.forEach(notification => {
+                const li = document.createElement('li');
+                li.className = notification.is_read ? '' : 'unread';
+                li.innerHTML = `${notification.message} <button onclick="markAsRead('${notification.notification_id}')">Mark as Read</button>`;
+                notificationsList.appendChild(li);
+            });
+        }
+
+        async function markAsRead(notificationId) {
+            try {
+                const response = await fetchWithAuth(`/notifications/${notificationId}`, {
+                    method: 'PUT'
+                });
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Failed to mark notification as read');
+                }
+            } catch (err) {
+                alert('Network error marking notification as read');
+            }
+        }
+
+        function checkNotifications() {
+            fetchWithAuth('/notifications')
+                .then(response => response.json())
+                .then(data => renderNotifications(data))
+                .catch(error => console.error('Error fetching notifications:', error));
+        }
+
+        setInterval(checkNotifications, 10000);
+        checkNotifications();
+
+        fetchWithAuth(`/user/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('User data:', data);
+                document.getElementById('welcome-msg').innerHTML = `<i class="ri-user-3-fill user-photo"></i> Welcome, ${data.name}!`;
+                document.getElementById('credits').textContent = data.time_credits || 0;
+                document.getElementById('services').textContent = data.skills.length;
+                document.getElementById('transactions-count').textContent = data.sentTransactions.length;
+                renderSkills(data.skills);
+
+                const transactionsList = document.getElementById('transactions-list');
+                transactionsList.innerHTML = '';
+                if (data.sentTransactions.length === 0) {
+                    transactionsList.innerHTML = '<li>No transactions yet</li>';
+                } else {
+                    data.sentTransactions.forEach(t => {
+                        const li = document.createElement('li');
+                        li.textContent = `${t.provider_name} provided ${t.skill_name} to ${t.receiver_name} for ${t.hours_transferred} hour(s) - ${t.status}`;
+                        transactionsList.appendChild(li);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+                alert('Failed to load user data');
+            });
+
+        document.getElementById('skill-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const skill = {
+                user_id: userId,
+                skill_name: document.getElementById('skill-name').value.trim(),
+                hourly_rate: Number(document.getElementById('hourly-rate').value),
+                description: document.getElementById('skill-desc').value.trim(),
+                availability: document.getElementById('skill-avail').value.trim()
+            };
+            console.log('Submitting skill:', skill);
+            if (!skill.skill_name || !skill.hourly_rate || !skill.availability) {
+                alert('Please fill all required fields');
+                return;
+            }
+            if (isNaN(skill.hourly_rate) || skill.hourly_rate <= 0) {
+                alert('Hourly rate must be a positive number');
+                return;
+            }
+            try {
+                const response = await fetchWithAuth('/skills', {
+                    method: 'POST',
+                    body: JSON.stringify(skill)
+                });
+                if (response.ok) {
+                    alert('Skill added successfully!');
+                    document.getElementById('skill-form').reset();
+                    location.reload();
+                } else {
+                    const errorData = await response.json();
+                    console.error('Skill addition error:', errorData);
+                    alert('Failed to add skill: ' + errorData.error);
+                }
+            } catch (err) {
+                console.error('Network error:', err);
+                alert('Failed to add skill due to a network error');
+            }
+        });
+
+        document.getElementById('request-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const request = {
+                user_id: userId,
+                skill_needed: document.getElementById('skill-needed').value.trim(),
+                preferred_location: document.getElementById('preferred-location').value.trim()
+            };
+            console.log('Submitting request:', request);
+            try {
+                const response = await fetchWithAuth('/match-skills', {
+                    method: 'POST',
+                    body: JSON.stringify(request)
+                });
+                if (response.ok) {
+                    const matches = await response.json();
+                    console.log('Matches:', matches);
+                    const matchesList = document.getElementById('matches-list');
+                    matchesList.innerHTML = '';
+                    if (matches.length === 0) {
+                        matchesList.innerHTML = '<li>No matches found</li>';
+                    } else {
+                        matches.forEach(match => {
+                            const li = document.createElement('li');
+                            li.textContent = `${match.skill_name} by ${match.provider_name} - ${match.description} (${match.availability})`;
+                            const requestBtn = document.createElement('button');
+                            requestBtn.innerHTML = '<i class="fas fa-handshake"></i> Request';
+                            requestBtn.onclick = async () => {
+                                const transaction = {
+                                    provider_id: match.user_id,
+                                    receiver_id: userId,
+                                    skill_id: match.skill_id,
+                                    hours_transferred: 1
+                                };
+                                try {
+                                    const tResponse = await fetchWithAuth('/transactions', {
+                                        method: 'POST',
+                                        body: JSON.stringify(transaction)
+                                    });
+                                    if (tResponse.ok) {
+                                        alert('Service requested!');
+                                        location.reload();
+                                    } else {
+                                        const errorData = await tResponse.json();
+                                        alert('Transaction failed: ' + errorData.error);
+                                    }
+                                } catch (err) {
+                                    alert('Transaction failed due to a network error');
+                                }
+                            };
+                            li.appendChild(requestBtn);
+                            matchesList.appendChild(li);
+                        });
+                    }
+                } else {
+                    const errorData = await response.json();
+                    alert('Failed to find matches: ' + errorData.error);
+                }
+            } catch (err) {
+                alert('Failed to find matches due to a network error');
+            }
+        });
+
+        document.getElementById('logout').addEventListener('click', () => {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

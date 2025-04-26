@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Skills - Time Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Base styles */
+        body {
+            transition: background 0.3s ease, color 0.3s ease;
+            margin: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            transition: background 0.3s ease;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 8px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        nav a i {
+            margin-right: 5px;
+        }
+
+        nav a:hover {
+            color: #f1c40f;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        /* Skills Section Styling */
+        .skills {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+
+        .skills::before, .skills::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            transition: background 0.3s ease, opacity 0.3s ease;
+        }
+
+        .skills-container {
+            position: relative;
+            z-index: 2;
+            max-width: 450px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .skills-container h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .skills-container h2 i {
+            margin-right: 8px;
+        }
+
+        .filters {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            margin: 0;
+            padding: 12px 18px;
+            font-size: 1em;
+            border-radius: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+        }
+
+        .form-input:focus {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-button {
+            padding: 14px;
+            font-size: 1.1em;
+            border-radius: 20px;
+            width: 100%;
+            transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+        }
+
+        .form-button i {
+            margin-right: 6px;
+        }
+
+        #skills-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #skills-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        #skills-list li a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        footer {
+            padding: 15px;
+            margin-top: 30px;
+            text-align: center;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Light Mode (default) */
+        body.light-mode {
+            background: #f0f4f8;
+            color: #2c3e50;
+        }
+
+        .light-mode header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .light-mode .logo h1 {
+            color: #ffffff;
+        }
+
+        .light-mode .theme-toggle {
+            color: #ffffff;
+        }
+
+        .light-mode .skills {
+            background: #ffffff;
+            background: 
+                linear-gradient(0deg, rgba(52, 152, 219, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(52, 152, 219, 0.03) 1px, transparent 1px),
+                linear-gradient(135deg, #f7f9fc 0%, #e0e6ed 100%);
+            background-size: 40px 40px, 40px 40px, 100% 100%;
+        }
+
+        .light-mode .skills::before {
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.12) 0%, rgba(46, 204, 113, 0.12) 100%);
+            opacity: 1.0; /* Increased opacity */
+        }
+
+        .light-mode .skills::after {
+            background: radial-gradient(circle at 50% 20%, rgba(241, 196, 15, 0.15) 0%, transparent 80%);
+            opacity: 0.8; /* Increased opacity */
+        }
+
+        .light-mode .skills-container h2 {
+            color: #2980b9;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .light-mode .form-input {
+            background-color: #ffffff;
+            color: #2c3e50;
+            border: 1px solid #d5dce4;
+        }
+
+        .light-mode .form-input:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 8px rgba(41, 128, 185, 0.3);
+        }
+
+        .light-mode .form-button {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: #ffffff;
+        }
+
+        .light-mode .form-button:hover {
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        }
+
+        .light-mode #skills-list li {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .light-mode footer {
+            background: linear-gradient(135deg, #e0e6ed, #d5dce4);
+            color: #2c3e50;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background: #1a252f;
+            color: #e0e6ed;
+        }
+
+        .dark-mode header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+        }
+
+        .dark-mode .logo h1 {
+            color: #e0e6ed;
+        }
+
+        .dark-mode .theme-toggle {
+            color: #e0e6ed;
+        }
+
+        .dark-mode .skills {
+            background: #1a2a6c;
+            background: radial-gradient(circle at center, #2c3e50 0%, #1a2a6c 120%);
+        }
+
+        .dark-mode .skills::before {
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.25) 0%, rgba(46, 204, 113, 0.25) 100%);
+            opacity: 1.0; /* Increased opacity */
+        }
+
+        .dark-mode .skills::after {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.15) 0%, transparent 100%);
+            opacity: 1.0; /* Increased opacity */
+        }
+
+        .dark-mode .skills-container h2 {
+            color: #3498db;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .dark-mode .form-input {
+            background-color: #233544;
+            color: #e0e6ed;
+            border: 1px solid #34495e;
+        }
+
+        .dark-mode .form-input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+
+        .dark-mode .form-button {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: #fff;
+        }
+
+        .dark-mode .form-button:hover {
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.5);
+        }
+
+        .dark-mode #skills-list li {
+            background: rgba(44, 62, 80, 0.9);
+        }
+
+        .dark-mode footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #e0e6ed;
+        }
+
+        .dark-mode nav a {
+            color: #e0e6ed;
+        }
+
+        .dark-mode nav a:hover {
+            color: #f1c40f;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <header>
+        <div class="logo"><h1><i class="fas fa-clock"></i> Time Skill Exchange Platform</h1></div>
+        <div class="header-content">
+            <nav>
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="/skills"><i class="fas fa-tools"></i> Explore Skills</a>
+                <a href="#" id="auth-link"><i class="fas fa-sign-out-alt"></i> <span id="auth-text">Logout</span></a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+    <main>
+        <section class="skills">
+            <div class="skills-container">
+                <h2><i class="fas fa-tools"></i> Explore Skills</h2>
+                <div class="filters">
+                    <select id="category-filter" class="form-input">
+                        <option value="">All Categories</option>
+                        <!-- Populated dynamically -->
+                    </select>
+                    <input type="text" id="location-filter" class="form-input" placeholder="Location">
+                    <select id="rating-filter" class="form-input">
+                        <option value="">All Ratings</option>
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars & Up</option>
+                        <option value="3">3 Stars & Up</option>
+                        <option value="2">2 Stars & Up</option>
+                        <option value="1">1 Star & Up</option>
+                    </select>
+                    <button id="apply-filters" class="form-button"><i class="fas fa-filter"></i> Apply Filters</button>
+                </div>
+                <ul id="skills-list"></ul>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2025 Time Bank - Built with <i class="fas fa-heart"></i> for communities</p>
+    </footer>
+    <script>
+        // Theme Switcher
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        const savedTheme = localStorage.getItem('theme') || 'light-mode';
+        body.classList.add(savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark-mode');
+                updateThemeIcon('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light-mode');
+                updateThemeIcon('light-mode');
+            }
+        });
+
+        function updateThemeIcon(theme) {
+            themeToggle.innerHTML = theme === 'light-mode' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        }
+
+        // Check authentication state
+        const token = localStorage.getItem('token');
+        const authLink = document.getElementById('auth-link');
+        const authText = document.getElementById('auth-text');
+        if (token) {
+            authText.textContent = 'Logout';
+            authLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('userId');
+                localStorage.removeItem('token');
+                window.location.href = '/login';
+            });
+        } else {
+            authText.textContent = 'Login';
+            authLink.href = '/login';
+        }
+
+        // Fetch categories
+        fetch('/categories')
+            .then(response => response.json())
+            .then(data => {
+                const categoryFilter = document.getElementById('category-filter');
+                data.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.category_id;
+                    option.textContent = category.category_name;
+                    categoryFilter.appendChild(option);
+                });
+            })
+            .catch(err => console.error('Error fetching categories:', err));
+
+        // Load skills
+        function loadSkills() {
+            const category = document.getElementById('category-filter').value;
+            const location = document.getElementById('location-filter').value;
+            const rating = document.getElementById('rating-filter').value;
+            let url = '/skills';
+            const params = new URLSearchParams();
+            if (category) params.append('category', category);
+            if (location) params.append('location', location);
+            if (rating) params.append('rating', rating);
+            if (params.toString()) url += `?${params.toString()}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const skillsList = document.getElementById('skills-list');
+                    skillsList.innerHTML = '';
+                    data.forEach(skill => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a href="/skill/${skill.skill_id}">${skill.skill_name} by ${skill.username} - ${skill.description} (Rate: ${skill.hourly_rate} credits/hr)</a>`;
+                        skillsList.appendChild(li);
+                    });
+                })
+                .catch(err => console.error('Error fetching skills:', err));
+        }
+
+        document.getElementById('apply-filters').addEventListener('click', loadSkills);
+        loadSkills(); // Initial load
+    </script>
+</body>
+</html>
